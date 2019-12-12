@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+#      uri: mongodb://admin:Radint123@localhost:27017/mongo_demo?authSouce=admin
+#      uri: mongodb://admin:admin@10.0.75.1:27017/mongo_demo?authSource=admin&authMechanism=SCRAM-SHA-1
+      host: 10.0.75.1
+      username: admin
+      password: admin
+      port: 27017
+      database: mongo_demo
+      authentication-database: admin
+
+server:
+  port: 6090
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
