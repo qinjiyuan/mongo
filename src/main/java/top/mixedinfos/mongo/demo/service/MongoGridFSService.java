@@ -1,10 +1,12 @@
 package top.mixedinfos.mongo.demo.service;
 
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,6 +27,8 @@ public class MongoGridFSService {
     private GridFsTemplate gridFsTemplate;
     @Autowired
     private MongoDbFactory mongoDbFactory;
+    @Value("${mongodb.bucket}")
+    private  String buckets;
 
     public GridFSFile findFileById(Object id) throws Exception{
         Query query = new Query();
@@ -53,7 +57,8 @@ public class MongoGridFSService {
 
     public byte[] downloadFile(String objectId) throws Exception {
         GridFSFile gridFSFile = findFileById(objectId);
-        GridFSBucket bucket = GridFSBuckets.create(mongoDbFactory.getDb());
+        MongoDatabase md = mongoDbFactory.getDb();
+        GridFSBucket bucket = GridFSBuckets.create(md,buckets);
         GridFSDownloadStream in = bucket.openDownloadStream(gridFSFile.getObjectId());
         GridFsResource resource = new GridFsResource(gridFSFile,in);
         InputStream inputStream = resource.getInputStream();

@@ -16,3 +16,6 @@ server:
 logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+mongodb:
+  bucket: my_gridfs
